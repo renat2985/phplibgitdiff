@@ -3,6 +3,10 @@
     font-family: monospace;
   }
 
+  a {
+    color: #000;
+  }
+
   .remove {
     color: #808040;
   }
@@ -17,6 +21,10 @@
 
   tr:hover {
     background: #ffc;
+  }
+
+  h2 {
+    margin: 50px 0;
   }
 
   h4 {
@@ -76,7 +84,7 @@ $start = microtime(true);
 if ($handle = opendir('./')) {
   while (false !== ($file = readdir($handle))) {
     if (substr($file, strrpos($file, '.') + 1) == 'diff') {
-      echo '<h2>'.$file.'</h2>';
+      echo '<h2><a href="./'.$file.'">'.$file.'</a></h2>';
       $file = new GitDiff(file_get_contents($file));
       display($file);
     }
