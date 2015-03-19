@@ -6,19 +6,19 @@
   .remove {
     background: #fcc;
   }
-  
+
   .add {
     background: #cfc;
   }
-  
+
   tr {
     background: #eee;
   }
-  
+
   td {
     padding: 2px 4px;
   }
-  
+
   tr:hover {
     background: #ffc;
   }
@@ -52,12 +52,17 @@ function display($diff) {
 
 $start = microtime(true);
 
-$diff1 = new GitDiff(file_get_contents('sample1.diff'));
-$diff2 = new GitDiff(file_get_contents('sample2.diff'));
-
-display($diff1);
-display($diff2);
+if ($handle = opendir('./')) {
+  while (false !== ($file = readdir($handle))) {
+    if (substr($file, strrpos($file, '.') + 1) == 'diff') {
+      echo '<h1>'.$file.'</h1>';
+        $file = new GitDiff(file_get_contents($file));
+        display($file);
+    }
+  }
+  closedir($handle);
+}
 
 $time = microtime(true) - $start;
 
-echo $time;
+echo 'time: '.$time;
