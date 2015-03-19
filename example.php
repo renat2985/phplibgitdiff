@@ -4,15 +4,11 @@
   }
 
   .remove {
-    background: #fcc;
+    color: #808040;
   }
 
   .add {
-    background: #cfc;
-  }
-
-  tr {
-    background: #eee;
+    color: #0080FF;
   }
 
   td {
@@ -22,6 +18,19 @@
   tr:hover {
     background: #ffc;
   }
+
+  h4 {
+    color: #FF8000;
+  }
+
+  h3 {
+    color: #0000FF;
+    margin-top: 100px;
+  }
+
+  h5 {
+    color: #008000;
+  }
 </style>
 <?php
 
@@ -29,9 +38,21 @@ require 'lib/GitDiff.class.php';
 
 function display($diff) {
   foreach($diff->files as $file) {
-    echo "<h2>$file->file_name</h2>";
+    echo "<h3>$file->file_name</h3>";
+    $status = '';
+    if ($file->action == 1) {
+      $status='Edit';
+    }
+    if ($file->action == 2) {
+      $status='Delete';
+    }
+    if ($file->action == 3) {
+      $status='Create';
+    }
+    echo "<h5>$status file</h5>";
+
     foreach($file->sections as $section) {
-      echo "<h3>".$section->header."</h3>";
+      echo "<h4>".$section->header."</h4>";
       echo "<table>";
       foreach($section->lines as $line) {
         $class = '';
@@ -43,7 +64,7 @@ function display($diff) {
           $class = 'class="remove"';
         }
 
-        echo "<tr $class><td>".$line->line_numbers['left']."</td><td>".$line->line_numbers['right']."</td><td>".$line."</td></tr>";
+        echo "<tr $class><td>".$line->line_numbers['left']."</td><td>".$line->line_numbers['right']."</td><td style=\"width: 100%;\">".htmlspecialchars($line)."</td></tr>";
       }
       echo "</table>";
     }
@@ -55,9 +76,9 @@ $start = microtime(true);
 if ($handle = opendir('./')) {
   while (false !== ($file = readdir($handle))) {
     if (substr($file, strrpos($file, '.') + 1) == 'diff') {
-      echo '<h1>'.$file.'</h1>';
-        $file = new GitDiff(file_get_contents($file));
-        display($file);
+      echo '<h2>'.$file.'</h2>';
+      $file = new GitDiff(file_get_contents($file));
+      display($file);
     }
   }
   closedir($handle);
@@ -65,4 +86,4 @@ if ($handle = opendir('./')) {
 
 $time = microtime(true) - $start;
 
-echo 'time: '.$time;
+echo '<br>time: '.$time;
