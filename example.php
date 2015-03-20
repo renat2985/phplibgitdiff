@@ -39,6 +39,10 @@
   h5 {
     color: #008000;
   }
+
+.download {
+  color: rgba(128, 128, 64, 0.34);
+}
 </style>
 <?php
 
@@ -84,7 +88,7 @@ $start = microtime(true);
 if ($handle = opendir('./')) {
   while (false !== ($file = readdir($handle))) {
     if (substr($file, strrpos($file, '.') + 1) == 'diff') {
-      echo '<h2><a href="./'.$file.'">'.$file.'</a></h2>';
+      echo '<h2 id="'.$file.'"> <a href="#'.$file.'">#'.$file.'</a> <a href="./'.$file.'" class="download">download</a></h2>';
       $file = new GitDiff(file_get_contents($file));
       display($file);
     }
@@ -94,4 +98,4 @@ if ($handle = opendir('./')) {
 
 $time = microtime(true) - $start;
 
-echo '<br>time: '.$time;
+echo '<br><h6>time: '.$time.'</h6>';
