@@ -9,3 +9,6 @@ Command will write the last 5 commits:
 ```
 git diff HEAD~5 > test.diff
 ```
+
+
+![ScreenShot](https://github.com/renat2985/phplibgitdiff/blob/master/screenshot.png)
