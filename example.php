@@ -40,9 +40,18 @@
     color: #008000;
   }
 
-.download {
-  color: rgba(128, 128, 64, 0.34);
-}
+  .download {
+    color: rgba(128, 128, 64, 0.34);
+  }
+
+  td span {
+    float: right;
+    display:none;
+  }
+
+  td:hover span {
+    display:block;
+  }
 </style>
 <?php
 
@@ -69,14 +78,14 @@ function display($diff) {
       foreach($section->lines as $line) {
         $class = '';
         if ($line->mode == 1) {
-          $class = 'class="add"';
+          $class = 'add';
         }
 
         if ($line->mode == -1) {
-          $class = 'class="remove"';
+          $class = 'remove';
         }
 
-        echo "<tr $class><td>".$line->line_numbers['left']."</td><td>".$line->line_numbers['right']."</td><td style=\"width: 100%;\">".htmlspecialchars($line)."</td></tr>";
+        echo "<tr class=".$class."><td>".$line->line_numbers['left']."</td><td>".$line->line_numbers['right']."</td><td style=\"width: 100%;\">".htmlspecialchars($line)." <span>".$class." line</span></td></tr>";
       }
       echo "</table>";
     }
@@ -98,4 +107,4 @@ if ($handle = opendir('./')) {
 
 $time = microtime(true) - $start;
 
-echo '<br><h6>time: '.$time.'</h6>';
+echo '<br><h6>time: '.$time.' / <a href="https://github.com/renat2985">github</a></h6>';
